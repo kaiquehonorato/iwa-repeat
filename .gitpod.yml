@@ -1,0 +1,3 @@
+# list the start up tasks. Learn more https://gitpod.io/dpcs/config-start-tasks/
+tasks:
+- init: npm i -g xslt3# runs during prebuid
