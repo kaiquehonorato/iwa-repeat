@@ -1,31 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
- 
-@kaiquehonorato 
-mikhail-cct
-/
-iwa-practical
-Public
-Code
-Issues
-Pull requests
-Actions
-Projects
-Security
-Insights
-iwa-practical/PaddysCafe.xsl
-@mikhail-cct
-mikhail-cct wk13 select_row() & xsl update
-Latest commit 0b4d6ae on Dec 17, 2021
- History
- 1 contributor
-39 lines (39 sloc)  1.21 KB
-
 <?xml version="1.0"?> 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <xsl:template match="/">
@@ -65,18 +37,3 @@ Latest commit 0b4d6ae on Dec 17, 2021
 </table>
 </xsl:template>
 </xsl:stylesheet>
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
-iwa-practical/PaddysCafe.xsl at main · mikhail-cct/iwa-practical
