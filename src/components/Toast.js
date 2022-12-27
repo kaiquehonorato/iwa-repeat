@@ -1,20 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import {connect} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {clearResponse} from '../redux/util/controller';
 
-const mapStateToProps = ({ serverResponse }) => ({
-  serverResponse
-});
+const Modal = () => {
 
-const mapDispatchToProps = dispatch => {
-  return {
-  	clearResponse: user => dispatch(clearResponse())
-  }
-};
+	const dispatch = useDispatch();
+	const serverResponse = useSelector(state => state.serverResponse);
 
-const Modal = ({ serverResponse, clearResponse }) => {
+
 	const [show, setShow] = useState(false);
 
 	useEffect(() => {
@@ -30,7 +25,7 @@ const Modal = ({ serverResponse, clearResponse }) => {
 	useEffect(() => {
 		if (show === false && (serverResponse.success != null || serverResponse.failure != null)) {
 			const timer2 = setTimeout(() => {
-				clearResponse();
+				dispatch(clearResponse());
 			}, 500);
 			return () => clearTimeout(timer2);
 		}
@@ -40,20 +35,20 @@ const Modal = ({ serverResponse, clearResponse }) => {
 		<React.Fragment>
 			<CSSTransition
 				in={show}
-				classNames="modalAnimation"
+				classNames="toastAnimation"
 				timeout={500}
 				mountOnEnter
 				unmountOnExit
 			>
-				<div className="modal_area">
+				<div className="toast_area">
 					{serverResponse.success != null &&
 					<React.Fragment>
 						<div className="my_animated_bar_success"></div>
-						<div className="modal modal-success">
+						<div className="toast toast_success">
 							<p><i className="fa fa-flag" aria-hidden="true"></i> <strong>Success</strong>: {serverResponse.success}</p>
 							<button
 								type="button"
-								className="close_modal"
+								className="close_toast"
 								onClick={() => setShow(false)}>
 								<i className="fa fa-times" aria-hidden="true"></i>
 							</button>
@@ -63,11 +58,11 @@ const Modal = ({ serverResponse, clearResponse }) => {
 					{serverResponse.failure != null &&
 					<React.Fragment>
 						<div className="my_animated_bar_failure"></div>
-						<div className="modal modal-failure">
+						<div className="toast toast_failure">
 							<p><i className="fa fa-exclamation-triangle" aria-hidden="true"></i> <strong>Failure</strong>: {serverResponse.failure}</p>
 							<button
 								type="button"
-								className="close_modal"
+								className="close_toast"
 								onClick={() => setShow(false)}>
 								<i className="fa fa-times" aria-hidden="true"></i>
 							</button>
@@ -80,4 +75,4 @@ const Modal = ({ serverResponse, clearResponse }) => {
 	)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Modal);
+export default Modal;

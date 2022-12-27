@@ -3,7 +3,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 import Navbar from './Navbar';
-import Modal from './Modal';
+import Toast from './Toast';
 import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
@@ -43,7 +43,7 @@ const App = () => {
 	return (
 		<React.Fragment>
 			<Navbar />
-			<Modal />
+			<Toast />
 			{routes}
 		</React.Fragment>
 	)
