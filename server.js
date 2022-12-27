@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
+import {default as connectMongo} from 'connect-mongo';
+const MongoStore = connectMongo(session);
 
 import config from './config';
 import userRoutes from './routes/userRoutes';
@@ -13,6 +15,33 @@ server.disable('x-powered-by');
 // Parse json body
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
+
+// Connect to db
+mongoose.connect(config.mongodbUri, {useNewUrlParser: true, useUnifiedTopology: true})
+	.catch(err => {
+		console.log(err);
+	})
+
+// Session
+const sess = {
+	name: config.sess_name,
+	resave: false,
+	saveUninitialized: false,
+	secret: config.sess_secret,
+	store: new MongoStore({
+		mongooseConnection: mongoose.connection
+	}),
+	cookie: {
+		maxAge: config.sess_lifetime,
+		sameSite: true // same as 'Strict'
+	}
+}
+// For using secure cookies in production, but allowing for testing in development
+if (config.nodeEnv = 'production') {
+	server.set('trust proxy', 1) // trust first proxy
+	// sess.cookie.secure = true // serve secure cookies
+}
+server.use(session(sess));
 
 // Use router for all requests at ./api
 server.use('/api', userRoutes);
