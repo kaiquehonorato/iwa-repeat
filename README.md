@@ -1,9 +1,7 @@
-ToDo List Manager: (MERN stack)
+JobPedia - A Job Portal:
 
 About project:
-Visitors may add a toDo item, edit item, mark as read/unread, delete an item.
-They may also edit bucket name to any name they like.
-ToDo item can also be persisted, for that visitors need to sign up for an account.
+JobPedia - A Job Portal listing different jobs for job seekers and helping companies get good employees 
 
 Documentation:
 Front-end: React, Redux
@@ -30,5 +28,3 @@ mongoose-unique-validator
 pug
 
 In order to run the project use "npm start".
-
-This project is live on Heroku at url - https://mernto.herokuapp.com/
