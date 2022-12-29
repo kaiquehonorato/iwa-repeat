@@ -182,5 +182,54 @@ const logout = (req, res, next) => {
 	})
 };
 
+// CreateJob
+const createJob = async (req, res, next) => {
+	if (req.session.email) {
+		// validation result
+		const errors = validationResult(req);
+		if(!errors.isEmpty()) {
+			return res.json({
+				message: 'Could not create Job, please check inputs',
+				type: 'failure'
+			});
+		}
+		// get input values
+		const {job_title, job_description, company_name, company_description, responsibilities, required_skills} = req.body;
+		// Present time to readable String
+		const date = new Date;
+		const year = date.getFullYear();
+		const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+		const monthString = months[date.getMonth()];
+		const day = date.getDate();
+		const dateString = day + " " + monthString + ", " + year;
+		const createdJob = new Job({
+			job_title,
+			job_description,
+			company_name,
+			company_description,
+			responsibilities,
+			required_skills,
+			posted_date: dateString
+		});
+		// Create a new job
+		try {
+			await createdJob.save();
+		} catch (err) {
+			const error = new HttpError("Signing up failed, please try again");
+			return next(error);
+		}
+		console.log("New job created");
+		res.status(201).json({
+			job: createdJob.toObject({getters: true}),
+			redirect: true,
+			type: 'success',
+			message: 'Job post created'
+		});
+	} else {
+		res.status(200).json({
+			loggedIn: false
+		});
+	}
+};
 
-export default { getUser, login, signup, logout };
+export default { getUser, login, signup, logout, createJob };
