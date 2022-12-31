@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
+import Select from 'react-select';
 
 import {signup} from '../redux/util/controller';
 
@@ -12,11 +13,15 @@ const Signup = () => {
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [account, setAccount] = useState('');
 	
 	const [nameError, setNameError] = useState('');
 	const [usernameError, setUsernameError] = useState('');
 	const [emailError, setEmailError] = useState('');
 	const [passwordError, setPasswordError] = useState('');
+	const [accountError, setAccountError] = useState('');
+
+	const accountOptions = [{label: "Employer", value: "employer"}, {label: "Job Seeker", value: "job_seeker"}];
 
 	const nameHandler = (event) => {
 		setName(event.target.value);
@@ -34,6 +39,14 @@ const Signup = () => {
 		setPassword(event.target.value.trim());
 		setPasswordError('');
 	}
+	const accountHandler = (e) => {
+		setAccount(e);
+		setAccountError('');
+	}
+
+	useEffect(() => {
+		console.log('account', account);
+	}, [account]);
 
 	// Scroll to top of page
 	useEffect(() => {
@@ -62,13 +75,18 @@ const Signup = () => {
 		} else {
 			setEmailError('Enter a valid email');
 		}
+		if (!account) {
+			setAccountError('Please select');
+		} else {
+			setAccountError('');
+		}
 		if (!password) {
 			setPasswordError('Enter your password');
 		}
 		if (password.length > 0 && password.length < 6) {
 			setPasswordError('Password must be at least 6 characters');
 		}
-		if (!name || !username || !(/^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\.[A-Za-z]+$/.test(email)) || !password || password.length < 6) {
+		if (!name || !username || !(/^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\.[A-Za-z]+$/.test(email)) || !account || !password || password.length < 6) {
 			return false;
 		}
 		return true;
@@ -83,6 +101,7 @@ const Signup = () => {
 				name,
 				username,
 				email,
+				account: account.value,
 				password
 			}
 			dispatch(signup(user));
@@ -145,6 +164,15 @@ const Signup = () => {
 									className={`${(passwordError !== "") && "red-input"}`}
 								/>
 								{passwordError !== "" && <p className="error_text"><i>!</i> &nbsp;{passwordError}</p>}
+
+								<label>Account Type</label>
+								<Select 
+									defaultValue={account}
+									onChange={accountHandler}
+									options={accountOptions}
+									className="mt-6"
+								/>
+								{accountError !== "" && <p className="error_text mt-6"><i>!</i> &nbsp;{accountError}</p>}
 
 								<button type="submit" onClick={handleSignup}>Continue</button>
 							

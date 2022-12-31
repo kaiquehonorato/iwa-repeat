@@ -97,6 +97,9 @@ button:focus {
 
 
 /* Spaces */
+.mt-6 {
+	margin-top: 6px;
+}
 .mt-10 {
 	margin-top: 50px;
 }
