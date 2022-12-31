@@ -50,4 +50,10 @@ router.put('/updateJob', [
 	check('posted_date').not().isEmpty(),
 ], userController.updateJob);
 
+// Delete job
+router.delete('/deleteJob', [
+	check('job_identifier').not().isEmpty(),
+	check('creator').not().isEmpty(),
+], userController.deleteJob);
+
 export default router;

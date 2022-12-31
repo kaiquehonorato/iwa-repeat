@@ -180,7 +180,7 @@ const logout = (req, res, next) => {
 		res.clearCookie(config.sess_name);
 		res.json({
 			redirect: true,
-			message: 'User logged out'
+			message: 'Logged out'
 		});
 	})
 };
@@ -316,4 +316,54 @@ const updateJob = async (req, res, next) => {
 	}
 };
 
-export default { getUser, login, signup, logout, createJob, getJob, updateJob };
+const deleteJob = async (req, res, next) => {
+	if (req.session.email) {
+		// get input values
+		const {job_identifier, creator} = req.body;
+		if (req.session.username != creator) {
+			return res.json({
+				message: 'Permission denied',
+				type: 'failure'
+			});
+		}
+		let deletedJob;
+		try {
+			deletedJob = await Job.findOne(job_identifier);
+		} catch(err) {
+			const error = new HttpError('Could not find job', 500);
+			return next(error);
+		}
+		if (!deletedJob) {
+			return res.json({
+				message: 'Could not find job to delete',
+				type: 'failure'
+			});
+		}
+		// delete job
+		try {
+			await deletedJob.remove();
+		} catch(err) {
+			return res.status(200).json({
+				message: 'Could not delete Blog',
+				type: 'failure'
+			});
+		}
+
+		// return with success message and all jobs to update redux
+		let allJobs;
+		try {
+			allJobs = await Job.find();
+		} catch(err) {
+			const error = new HttpError('Error in finding job', 500);
+			return next(error);
+		}
+		if (allJobs) {
+			return res.json({
+				message: 'Job removed successfully',
+				type: success,
+				jobs: allJobs.toObject({getters: true}),
+			});
+		}
+};
+
+export default { getUser, login, signup, logout, createJob, getJob, updateJob, deleteJob };

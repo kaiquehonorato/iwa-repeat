@@ -11,6 +11,7 @@ const jobSchema = new Schema({
 	required_skills: { type: String, required: true },
 	posted_date: { type: String, required: true },
     creator: { type: String, required: true },
+	job_identifier: { type: String, required: true },
 });
 
 export default mongoose.model('Job', jobSchema);
