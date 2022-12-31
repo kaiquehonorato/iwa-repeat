@@ -364,6 +364,7 @@ const deleteJob = async (req, res, next) => {
 				jobs: allJobs.toObject({getters: true}),
 			});
 		}
+	}
 };
 
 export default { getUser, login, signup, logout, createJob, getJob, updateJob, deleteJob };
