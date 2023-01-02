@@ -667,6 +667,30 @@ a.signUpBtnLink {
 	word-spacing: 3px;
 }
 
+/* Home */
+.cta_button {
+	font-weight: bold;
+	padding: 10px 15px;
+	margin: 10px 0;
+	color: #fff !important;
+	background: #34a8f5;
+	border: 1px #34a8f5 solid;
+	border-radius: 5px;
+	text-decoration: none;
+}
+.cta_button:hover {
+	color: #fff !important;
+	background: #007FC0;
+	border: 1px solid #007FC0;
+	transition: all .25s;
+	cursor: pointer;
+}
+.cta_button.active {
+	color: #fff !important;
+	padding: 6px 15px;
+	border: 1px solid #34a8f5;
+}
+
 
 /* Toast */
 .my_animated_bar_success {

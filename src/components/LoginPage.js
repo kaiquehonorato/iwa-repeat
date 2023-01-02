@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 
 import {login} from '../redux/util/controller';
 
-const Login = () => {
+const LoginPage = () => {
 
 	const dispatch = useDispatch();
 
@@ -106,4 +106,4 @@ const Login = () => {
 	)
 }
 
-export default Login;
+export default LoginPage;

@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 const Home = () => {
 
 	const dispatch = useDispatch();
-	const job = useSelector(state => state.job);
+	const jobs = useSelector(state => state.job);
 	const session = useSelector(state => state.session);
 	const loggedIn = Boolean(session.email);
 
@@ -16,9 +16,14 @@ const Home = () => {
                     <p>A Job Portal listing different jobs for job seekers and helping companies get good employees</p>
 				</div>
 			</div>
-			<div className="container">
-				<div className="create_job">
-					
+			<div className="p-60">
+				<div className="container">
+					{loggedIn &&
+						<div className="create_job">
+							<h2>Create Job Listing</h2>
+							<Link className="cta_button" to="/create_job">Take Test Now</Link>
+						</div>
+					}
 				</div>
 			</div>
 		</React.Fragment>

@@ -5,7 +5,7 @@ import Select from 'react-select';
 
 import {signup} from '../redux/util/controller';
 
-const Signup = () => {
+const SignupPage = () => {
 
 	const dispatch = useDispatch();
 
@@ -43,10 +43,6 @@ const Signup = () => {
 		setAccount(e);
 		setAccountError('');
 	}
-
-	useEffect(() => {
-		console.log('account', account);
-	}, [account]);
 
 	// Scroll to top of page
 	useEffect(() => {
@@ -93,7 +89,7 @@ const Signup = () => {
 	}
 
 	// Form Submit
-	const handleSignup = (event) => {
+	const handlePage = (event) => {
 		event.preventDefault();
 		const isValid = validate();
 		if (isValid) {
@@ -186,4 +182,4 @@ const Signup = () => {
 	)
 }
 
-export default Signup;
+export default SignupPage;
