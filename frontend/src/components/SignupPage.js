@@ -113,7 +113,7 @@ const SignupPage = () => {
 				</div>
 			</div>
 			<div className="gray-bg">
-				<div className="container login-form p-60">
+				<div className="container login-form p-40">
 					<div className="p-lr">
 						<div className="card">
 							<div className="title">Create Account</div>
