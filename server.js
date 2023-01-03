@@ -47,7 +47,7 @@ server.use(session(sess));
 server.use('/api', userRoutes);
 
 // Use public folder as static server
-server.use(express.static('public'));
+// server.use(express.static('public'));
 
 // Serve index file for all cases except for defined above
 server.use((req, res, next) => {

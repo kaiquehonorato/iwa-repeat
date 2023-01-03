@@ -1,42 +1,49 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
-import Navbar from './Navbar';
 import Toast from './Toast';
-import Home from './Home';
-import Login from './Login';
-import Signup from './Signup';
+
+const Navbar = React.lazy(() => import('./Navbar'));
+const LoginPage = React.lazy(() => import('./LoginPage'));
+const SignupPage = React.lazy(() => import('./SignupPage'));
+const Home = React.lazy(() => import('./Home'));
 
 const App = () => {
 
+	const dispatch = useDispatch();
 	const session = useSelector(state => state.session);
 	const loggedIn = Boolean(session.email);
 
 	let routes;
 	if (loggedIn) {
 		routes = (
-			<Switch>
-				<Route path="/" exact>
-					<Home />
-				</Route>
-				<Redirect to="/" />
-			</Switch>
+			<Suspense fallback={<div>Loading...</div>}>
+				<Switch>
+					<Route path="/" exact>
+						<Home />
+					</Route>
+					<Redirect to="/" />
+				</Switch>
+			</Suspense>
+			
 		)
 	} else {
 		routes = (
-			<Switch>
-				<Route path="/" exact>
-					<Home />
-				</Route>
-				<Route path="/login" exact>
-					<Login />
-				</Route>
-				<Route path="/signup" exact>
-					<Signup />
-				</Route>
-				<Redirect to="/login" />
-			</Switch>
+			<Suspense fallback={<div>Loading...</div>}>
+				<Switch>
+					<Route path="/" exact>
+						<Home />
+					</Route>
+					<Route path="/login" exact>
+						<LoginPage />
+					</Route>
+					<Route path="/signup" exact>
+						<SignupPage />
+					</Route>
+					<Redirect to="/login" />
+				</Switch>
+			</Suspense>
 		)
 	}
 

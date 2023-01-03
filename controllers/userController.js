@@ -88,7 +88,7 @@ const login = async (req, res, next) => {
 const signup = async (req, res, next) => {
 
 	// get input values
-	const {name, username, email, password} = req.body;
+	const {name, username, email, account, password} = req.body;
 	// check if entered username exists in DB
 	let existingUserName;
 	try {
@@ -146,6 +146,7 @@ const signup = async (req, res, next) => {
 		name, // name: name
 		username,
 		email,
+		account,
 		password: hashedPassword,
 		created_date: dateString
 	});
@@ -161,6 +162,7 @@ const signup = async (req, res, next) => {
 	if (!req.session.email) {
 		req.session.email = email;
 		req.session.username = username;
+		req.session.account = account;
 	}
 	
 	res.status(201).json({
@@ -187,7 +189,7 @@ const logout = (req, res, next) => {
 
 // CreateJob
 const createJob = async (req, res, next) => {
-	if (req.session.email) {
+	if (req.session.email && req.session.account == 'employer') {
 		// validation result
 		const errors = validationResult(req);
 		if(!errors.isEmpty()) {
@@ -232,7 +234,7 @@ const createJob = async (req, res, next) => {
 		});
 	} else {
 		res.status(200).json({
-			loggedIn: false
+			message: 'Permission denied'
 		});
 	}
 };
@@ -257,7 +259,7 @@ const getJob = async (req, res, next) => {
 
 // Update job
 const updateJob = async (req, res, next) => {
-	if (req.session.email) {
+	if (req.session.email && req.session.account == 'employer') {
 		// validation result
 		const errors = validationResult(req);
 		if(!errors.isEmpty()) {
@@ -311,13 +313,13 @@ const updateJob = async (req, res, next) => {
 		});
 	} else {
 		res.status(200).json({
-			loggedIn: false
+			message: 'Permission denied'
 		});
 	}
 };
 
 const deleteJob = async (req, res, next) => {
-	if (req.session.email) {
+	if (req.session.email && req.session.account == 'employer') {
 		// get input values
 		const {job_identifier, creator} = req.body;
 		if (req.session.username != creator) {
@@ -364,6 +366,10 @@ const deleteJob = async (req, res, next) => {
 				jobs: allJobs.toObject({getters: true}),
 			});
 		}
+	} else {
+		res.status(200).json({
+			message: 'Permission denied'
+		});
 	}
 };
 
