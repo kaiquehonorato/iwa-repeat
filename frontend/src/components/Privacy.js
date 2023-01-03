@@ -14,7 +14,7 @@ const Privacy = () => {
               <p>Please make sure to read and understand all the points in the Privacy Policy.</p>
           </div>
       </div>
-      <div className="p-60">
+      <div className="p-40">
           <div className="container privacy">
             <div className="title text-left">Introduction:</div>
             <div className="grey-border"></div>

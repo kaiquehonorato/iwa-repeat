@@ -6,6 +6,10 @@ export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const UPDATE_CURRENT_USER = "UPDATE_CURRENT_USER";
 export const LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
 
+// session
+export const RECEIVE_CURRENT_JOB = "RECEIVE_CURRENT_JOB";
+export const UPDATE_CURRENT_JOB = "UPDATE_CURRENT_JOB";
+
 // server response
 export const RECEIVE_SUCCESS_MESSAGE = "RECEIVE_SUCCESS_MESSAGE";
 export const RECEIVE_FAILURE_MESSAGE = "RECEIVE_FAILURE_MESSAGE";
@@ -23,6 +27,16 @@ const updateCurrentUser = user => ({
 });
 const logoutCurrentUser = () => ({
   type: LOGOUT_CURRENT_USER
+});
+
+// job
+export const receiveCurrentJob = job => ({
+	type: RECEIVE_CURRENT_JOB,
+	job
+});
+export const updateCurrentJob = job => ({
+	type: UPDATE_CURRENT_JOB,
+	job
 });
 
 // server response

@@ -109,6 +109,9 @@ button:focus {
 .mb-20 {
 	margin-bottom: 20px;
 }
+.mb-30 {
+	margin-bottom: 30px;
+}
 .mb-40 {
 	margin-bottom: 40px;
 }
@@ -520,6 +523,19 @@ li.user:hover ul {
 	border: 1px solid #a9a9a9;
 	border-radius: 3px;
 }
+.login-form .textarea_block {
+	display: block;
+	resize: none;
+	font-size: 14px;
+	color: #555;
+	width: 100%;
+	height: 100px;
+	padding: 6px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border: 1px solid #a9a9a9;
+	border-radius: 3px;
+}
 .login-form input[type=text]:focus,
 .login-form input[type=number]:focus,
 .login-form input[type=password]:focus {
@@ -735,6 +751,25 @@ a.signUpBtnLink {
 .job_info {
 	margin-bottom: 30px;
 }
+.job_info a {
+	text-decoration: none;
+}
+.job_info h2 {
+	color: #007FC0;
+}
+.job_info .company {
+	color: #666;
+	margin-top: 3px;
+	margin-bottom: 2px;
+}
+.job_info .location {
+	color: #a9a9a9;
+}
+.job_info h2:hover {
+	cursor: pointer;
+	color: #007FC0;
+	text-decoration: underline;
+}
 .job_apply {
 	margin-bottom: 30px;
 }
@@ -761,6 +796,29 @@ a.signUpBtnLink {
 	padding: 6px 15px;
 	border: 1px solid #34a8f5;
 }
+.edit_button {
+	font-weight: bold;
+	padding: 8px 14px;
+	margin: 15px 15px 0 0;
+	color: #fff !important;
+	background: #cbcbcb;
+	border: 1px #cbcbcb solid;
+	border-radius: 5px;
+	text-decoration: none;
+}
+.edit_button:hover {
+	color: #fff !important;
+	background: #a9a9a9;
+	border: 1px solid #a9a9a9;
+	box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+	transition: all .25s;
+	cursor: pointer;
+}
+.edit_button.active {
+	color: #fff !important;
+	padding: 6px 15px;
+	border: 1px solid #cbcbcb;
+}
 .remove_button {
 	font-weight: bold;
 	padding: 8px 14px;
@@ -784,6 +842,37 @@ a.signUpBtnLink {
 	color: #fff !important;
 	padding: 6px 15px;
 	border: 1px solid #ee6d76;
+}
+
+/* Job Details */
+.job_details {
+	max-width: 800px;
+	margin: auto;
+	background: #fff;
+	padding: 40px 20px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 40px;
+}
+.job_details h3 {
+	color: #222;
+	margin-bottom: 10px;
+}
+.job_title {
+	color: #111;
+	font-size: 26px;
+	font-weight: 800;
+	margin-bottom: 6px;
+}
+.company {
+	color: #666;
+}
+.location {
+	color: #a9a9a9;
+}
+.jobDescriptionText {
+	color: #333;
+	line-height: 1.6;
 }
 
 

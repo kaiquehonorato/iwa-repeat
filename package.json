@@ -4,7 +4,7 @@
   "description": "JobPedia - A Job Portal listing different jobs for job seekers and helping companies get good employees",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon -r esm server.js --ignore public/",
+    "start": "nodemon -r esm server.js --ignore client",
     "watch": "webpack --watch"
   },
   "repository": {
