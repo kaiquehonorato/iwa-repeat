@@ -9,6 +9,7 @@ import SignupPage from './SignupPage';
 import Home from './Home';
 import Privacy from './Privacy';
 import Footer from './Footer';
+import CreateJob from './CreateJob';
 
 const App = () => {
 
@@ -26,6 +27,9 @@ const App = () => {
 				<Route path="/privacy" exact>
 					<Privacy />
 				</Route>
+				<Route path="/create_job" exact>
+					<CreateJob />
+				</Route>
 				<Redirect to="/" />
 			</Switch>
 			
@@ -35,6 +39,9 @@ const App = () => {
 			<Switch>
 				<Route path="/" exact>
 					<Home />
+				</Route>
+				<Route path="/create_job" exact>
+					<CreateJob />
 				</Route>
 				<Route path="/login" exact>
 					<LoginPage />

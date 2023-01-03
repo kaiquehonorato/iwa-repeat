@@ -6,6 +6,11 @@ import {login} from '../redux/util/controller';
 
 const LoginPage = () => {
 
+	// Scroll Top
+    useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
 	const dispatch = useDispatch();
 
 	const [email, setEmail] = useState('');

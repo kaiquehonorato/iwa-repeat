@@ -520,6 +520,19 @@ li.user:hover ul {
 	border: 1px solid #a9a9a9;
 	border-radius: 3px;
 }
+.login-form .textarea_block {
+	display: block;
+	resize: none;
+	font-size: 14px;
+	color: #555;
+	width: 100%;
+	height: 100px;
+	padding: 6px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border: 1px solid #a9a9a9;
+	border-radius: 3px;
+}
 .login-form input[type=text]:focus,
 .login-form input[type=number]:focus,
 .login-form input[type=password]:focus {
@@ -734,6 +747,25 @@ a.signUpBtnLink {
 }
 .job_info {
 	margin-bottom: 30px;
+}
+.job_info a {
+	text-decoration: none;
+}
+.job_info h2 {
+	color: #007FC0;
+}
+.job_info .company {
+	color: #666;
+	margin-top: 3px;
+	margin-bottom: 2px;
+}
+.job_info .location {
+	color: #a9a9a9;
+}
+.job_info h2:hover {
+	cursor: pointer;
+	color: #007FC0;
+	text-decoration: underline;
 }
 .job_apply {
 	margin-bottom: 30px;

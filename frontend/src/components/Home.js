@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -8,6 +8,11 @@ const Home = () => {
 	const jobs = useSelector(state => state.job);
 	const session = useSelector(state => state.session);
 	const loggedIn = Boolean(session.email);
+
+	// Scroll Top
+    useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	return (
 		<React.Fragment>
@@ -19,21 +24,21 @@ const Home = () => {
 			</div>
 			<div className="p-40">
 				<div className="container">
-					{/* {loggedIn && */}
+					{loggedIn && session.account == "employer" &&
 						<div className="create_job">
 							<h2>Click below to post a free job listing on JobPedia</h2>
 							<Link className="cta_button" to="/create_job">Create now</Link>
 						</div>
-					{/* } */}
+					}
 					<div className="all_jobs">
 						<div className="single_job">
 							<div className="job_info">
-								<h2>Senior Full Stack Engineer</h2>
+								<Link to={`create_job`}><h2>Senior Full Stack Engineer</h2></Link>
 								<div className="company">Google</div>
 								<div className="location">Dublin, County Dublin, Ireland</div>
 							</div>
 							<div className="job_apply">
-								<button className="apply_button" onClick={() => {}}>Apply</button>
+								<Link to={`create_job`}><button className="apply_button" onClick={() => {}}>View</button></Link>
 								<button className="remove_button" onClick={() => {}}>Delete</button>
 							</div>
 						</div>
@@ -44,7 +49,7 @@ const Home = () => {
 								<div className="location">Dublin, County Dublin, Ireland</div>
 							</div>
 							<div className="job_apply">
-								<button className="apply_button" onClick={() => {}}>Apply</button>
+								<button className="apply_button" onClick={() => {}}>View</button>
 								<button className="remove_button" onClick={() => {}}>Delete</button>
 							</div>
 						</div>

@@ -4,6 +4,7 @@ import crypto from 'crypto';
 
 import config from '../config';
 import User from '../models/user';
+import Job from '../models/job';
 
 // Get all values of logged in user
 const getUser = async (req, res, next) => {
@@ -75,7 +76,8 @@ const login = async (req, res, next) => {
 	// Logged In create session
 	if (!req.session.email) {
 		req.session.email = email;
-		req.session.username = username;
+		req.session.username = user.username;
+		req.session.account = user.account;
 	}
 	res.status(200).json({
 		user: user.toObject({getters: true}),
@@ -199,7 +201,7 @@ const createJob = async (req, res, next) => {
 			});
 		}
 		// get input values
-		const {job_title, job_description, company_name, company_description, responsibilities, required_skills} = req.body;
+		const {job_title, company_name, company_location, job_description, job_responsibilities, required_skills} = req.body;
 		// Present time to readable String
 		const date = new Date;
 		const year = date.getFullYear();
@@ -209,10 +211,10 @@ const createJob = async (req, res, next) => {
 		const dateString = day + " " + monthString + ", " + year;
 		const createdJob = new Job({
 			job_title,
-			job_description,
 			company_name,
-			company_description,
-			responsibilities,
+			company_location,
+			job_description,
+			job_responsibilities,
 			required_skills,
 			posted_date: dateString,
 			creator: req.session.username,
