@@ -7,6 +7,8 @@ import Navbar from './Navbar';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import Home from './Home';
+import Privacy from './Privacy';
+import Footer from './Footer';
 
 const App = () => {
 
@@ -20,6 +22,9 @@ const App = () => {
 			<Switch>
 				<Route path="/" exact>
 					<Home />
+				</Route>
+				<Route path="/privacy" exact>
+					<Privacy />
 				</Route>
 				<Redirect to="/" />
 			</Switch>
@@ -37,6 +42,9 @@ const App = () => {
 				<Route path="/signup" exact>
 					<SignupPage />
 				</Route>
+				<Route path="/privacy" exact>
+					<Privacy />
+				</Route>
 				<Redirect to="/login" />
 			</Switch>
 		)
@@ -47,6 +55,7 @@ const App = () => {
 			<Navbar />
 			<Toast />
 			{routes}
+			<Footer />
 		</React.Fragment>
 	)
 };

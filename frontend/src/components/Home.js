@@ -17,14 +17,39 @@ const Home = () => {
                     <p>A Job Portal listing different jobs for job seekers and helping companies get good employees</p>
 				</div>
 			</div>
-			<div className="p-60">
+			<div className="p-40">
 				<div className="container">
-					{loggedIn &&
+					{/* {loggedIn && */}
 						<div className="create_job">
-							<h2>Create Job Listing</h2>
-							<Link className="cta_button" to="/create_job">Take Test Now</Link>
+							<h2>Click below to post a free job listing on JobPedia</h2>
+							<Link className="cta_button" to="/create_job">Create now</Link>
 						</div>
-					}
+					{/* } */}
+					<div className="all_jobs">
+						<div className="single_job">
+							<div className="job_info">
+								<h2>Senior Full Stack Engineer</h2>
+								<div className="company">Google</div>
+								<div className="location">Dublin, County Dublin, Ireland</div>
+							</div>
+							<div className="job_apply">
+								<button className="apply_button" onClick={() => {}}>Apply</button>
+								<button className="remove_button" onClick={() => {}}>Delete</button>
+							</div>
+						</div>
+						<div className="single_job">
+							<div className="job_info">
+								<h2>Graphic Designer</h2>
+								<div className="company">Google</div>
+								<div className="location">Dublin, County Dublin, Ireland</div>
+							</div>
+							<div className="job_apply">
+								<button className="apply_button" onClick={() => {}}>Apply</button>
+								<button className="remove_button" onClick={() => {}}>Delete</button>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</React.Fragment>
