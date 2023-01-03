@@ -3,7 +3,7 @@ import {Link, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
 
-import {receiveCurrentJob, updateCurrentJob} from '../redux/util/controller';
+import {receiveCurrentJob, updateCurrentJob, receiveSuccessMessage, receiveFailureMessage} from '../redux/util/controller';
 
 const Home = () => {
 
@@ -44,6 +44,22 @@ const Home = () => {
 
 	const deleteHandler = (job) => {
 		btnClickHandler(job);
+		const data = {
+			job_identifier: jobs.selectedJob.job_identifier,
+			creator: jobs.selectedJob.creator
+		}
+		axios.delete(`/api/deleteJob?job_identifier=${jobs.selectedJob.job_identifier}&creator=${jobs.selectedJob.creator}`)
+			.then(resp => {
+				console.log("resp is", resp);
+				if (resp.data.type == 'success') {
+					return dispatch(receiveSuccessMessage({success: resp.data.message}));
+				}
+				return dispatch(receiveFailureMessage({failure: resp.data.message}));
+			})
+			.catch(err => {
+				console.log("Err", err);
+				return dispatch(receiveFailureMessage({failure: "Something went wrong"}));
+			})
 	}
 
 	return (

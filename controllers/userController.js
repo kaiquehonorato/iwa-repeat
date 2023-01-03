@@ -339,8 +339,10 @@ const updateJob = async (req, res, next) => {
 
 const deleteJob = async (req, res, next) => {
 	if (req.session.email && req.session.account == 'employer') {
+		console.log("req.session", req.session);
+		console.log("req.query", req.query);
 		// get input values
-		const {job_identifier, creator} = req.body;
+		const {job_identifier, creator} = req.query;
 		if (req.session.username != creator) {
 			return res.json({
 				message: 'Permission denied',
@@ -349,10 +351,12 @@ const deleteJob = async (req, res, next) => {
 		}
 		let deletedJob;
 		try {
-			deletedJob = await Job.findOne(job_identifier);
+			deletedJob = await Job.find(job_identifier);
 		} catch(err) {
-			const error = new HttpError('Could not find job', 500);
-			return next(error);
+			return res.json({
+				message: 'Could not find job to delete',
+				type: 'failure'
+			});
 		}
 		if (!deletedJob) {
 			return res.json({
@@ -387,7 +391,8 @@ const deleteJob = async (req, res, next) => {
 		}
 	} else {
 		res.status(200).json({
-			message: 'Permission denied'
+			message: 'Permission denied',
+			type: 'failure'
 		});
 	}
 };
