@@ -100,7 +100,13 @@ const CreateJob = () => {
             axios.post('/api/createJob', data)
                 .then(resp => {
                     console.log("resp is", resp);
-                    dispatch(receiveSuccessMessage({success: resp.data.message}));
+                    if (resp.data.type == 'success') {
+                        return dispatch(receiveSuccessMessage({success: resp.data.message}));
+                    }
+                    return dispatch(receiveFailureMessage({failure: resp.data.message}));
+                })
+                .catch(err => {
+                    return dispatch(receiveFailureMessage({failure: "Something went wrong"}));
                 })
 			// dispatch(login(user));
 		}

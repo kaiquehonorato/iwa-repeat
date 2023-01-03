@@ -236,13 +236,15 @@ const createJob = async (req, res, next) => {
 		});
 	} else {
 		res.status(200).json({
-			message: 'Permission denied'
+			message: 'Permission denied',
+			type: 'failure'
 		});
 	}
 };
 
 // Get all values of logged in user
 const getJob = async (req, res, next) => {
+	console.log("getJob route hit");
 	let allJobs;
 	try {
 		allJobs = await Job.find();
@@ -250,9 +252,10 @@ const getJob = async (req, res, next) => {
 		const error = new HttpError('Error in finding job', 500);
 		return next(error);
 	}
+	console.log("allJobs", allJobs);
 	if (allJobs) {
 		res.status(200).json({
-			jobs: allJobs.toObject({getters: true}),
+			jobs: allJobs,
 			message: 'Jobs fetched successfully',
 			loggedIn: true
 		});
@@ -261,6 +264,7 @@ const getJob = async (req, res, next) => {
 
 // Update job
 const updateJob = async (req, res, next) => {
+	console.log("made inside update job route");
 	if (req.session.email && req.session.account == 'employer') {
 		// validation result
 		const errors = validationResult(req);
@@ -270,8 +274,15 @@ const updateJob = async (req, res, next) => {
 				type: 'failure'
 			});
 		}
+		if (req.session.username != req.body.creator) {
+			res.status(200).json({
+				message: 'Permission denied',
+				type: 'failure'
+			});
+		}
 		// get input values
-		const {job_title, job_description, company_name, company_description, responsibilities, required_skills, job_identifier} = req.body;
+		console.log("req.body", req.body);
+		const {job_title, company_name, company_location, job_description, job_responsibilities, required_skills, job_identifier} = req.body;
 		if (!job_identifier) {
 			return res.json({
 				message: 'Could not update Job as job not found',
@@ -287,35 +298,41 @@ const updateJob = async (req, res, next) => {
 		const dateString = day + " " + monthString + ", " + year;
 		let updatedJob;
 		try {
-			updatedJob = await Job.findOne(job_identifier);
+			updatedJob = await Job.find(job_identifier);
 		} catch(err) {
-			const error = new HttpError("Cannot find blog to edit");
-			return next(error);
+			res.json({
+				message: 'Cannot find blog to edit',
+				type: 'failure'
+			});
 		}
-		updatedJob.job_title = job_title;
-		updatedJob.job_description = job_description;
-		updatedJob.company_name = company_name;
-		updatedJob.company_description = company_description;
-		updatedJob.responsibilities = responsibilities;
-		updatedJob.required_skills = required_skills;
-		
-		// update job
-		try {
-			await updatedJob.save();
-		} catch (err) {
-			const error = new HttpError("Cannot update blog");
-			return next(error);
-		}
-		console.log("Job updated");
-		res.status(201).json({
-			job: updatedJob.toObject({getters: true}),
-			redirect: true,
-			type: 'success',
-			message: 'Job post updated'
-		});
+		if (updatedJob) {
+			console.log("updatedJob", updatedJob);
+			updatedJob.job_title = job_title;
+			updatedJob.company_name = company_name;
+			updatedJob.company_location = company_location;
+			updatedJob.job_description = job_description;
+			updatedJob.job_responsibilities = job_responsibilities;
+			updatedJob.required_skills = required_skills;
+			
+			// update job
+			try {
+				await updatedJob.save();
+			} catch (err) {
+				const error = new HttpError("Cannot update blog");
+				return next(error);
+			}
+			console.log("Job updated");
+			res.status(201).json({
+				job: updatedJob.toObject({getters: true}),
+				redirect: true,
+				type: 'success',
+				message: 'Job post updated'
+			});
+		}		
 	} else {
 		res.status(200).json({
-			message: 'Permission denied'
+			message: 'Permission denied',
+			type: 'failure'
 		});
 	}
 };

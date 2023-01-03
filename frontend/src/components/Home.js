@@ -1,18 +1,50 @@
 import React, { useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
+import axios from 'axios';
+
+import {receiveCurrentJob, updateCurrentJob} from '../redux/util/controller';
 
 const Home = () => {
 
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const jobs = useSelector(state => state.job);
 	const session = useSelector(state => state.session);
 	const loggedIn = Boolean(session.email);
+
+	useEffect(() => {
+		axios.get('/api/getJob')
+			.then(resp => {
+				console.log("jobs", resp.data)
+				const updatedJobs = {...jobs, allJobs: resp.data.jobs}
+				dispatch(updateCurrentJob(updatedJobs));
+			})
+	}, []);
 
 	// Scroll Top
     useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
+
+	const btnClickHandler = (job) => {
+		console.log("job", job);
+        dispatch(updateCurrentJob({ ...jobs, selectedJob: job }));
+	}
+
+	const viewHandler = (job) => {
+		btnClickHandler(job);
+		history.push('/job_details');
+	}
+
+	const editHandler = (job) => {
+		btnClickHandler(job);
+		history.push('/edit_job');
+	}
+
+	const deleteHandler = (job) => {
+		btnClickHandler(job);
+	}
 
 	return (
 		<React.Fragment>
@@ -31,30 +63,23 @@ const Home = () => {
 						</div>
 					}
 					<div className="all_jobs">
-						<div className="single_job">
-							<div className="job_info">
-								<Link to={`create_job`}><h2>Senior Full Stack Engineer</h2></Link>
-								<div className="company">Google</div>
-								<div className="location">Dublin, County Dublin, Ireland</div>
-							</div>
-							<div className="job_apply">
-								<Link to={`create_job`}><button className="apply_button" onClick={() => {}}>View</button></Link>
-								<button className="remove_button" onClick={() => {}}>Delete</button>
-							</div>
-						</div>
-						<div className="single_job">
-							<div className="job_info">
-								<h2>Graphic Designer</h2>
-								<div className="company">Google</div>
-								<div className="location">Dublin, County Dublin, Ireland</div>
-							</div>
-							<div className="job_apply">
-								<button className="apply_button" onClick={() => {}}>View</button>
-								<button className="remove_button" onClick={() => {}}>Delete</button>
-							</div>
-						</div>
+						{jobs && jobs.allJobs && jobs.allJobs.length && jobs.allJobs.map(job => {
+							return (
+								<div className="single_job" key={job.job_identifier}>
+									<div className="job_info">
+										<Link to={`job_details`}><h2>{job.job_title}</h2></Link>
+										<div className="company">{job.company_name}</div>
+										<div className="location">{job.company_location}</div>
+									</div>
+									<div className="job_apply">
+										<button className="apply_button" onClick={() => viewHandler(job)}>View</button>
+										<button className="edit_button" onClick={() => editHandler(job)}>Edit</button>
+										<button className="remove_button" onClick={() => deleteHandler(job)}>Delete</button>
+									</div>
+								</div>
+							)
+						})}
 					</div>
-
 				</div>
 			</div>
 		</React.Fragment>

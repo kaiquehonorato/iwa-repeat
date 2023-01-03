@@ -10,6 +10,8 @@ import Home from './Home';
 import Privacy from './Privacy';
 import Footer from './Footer';
 import CreateJob from './CreateJob';
+import EditJob from './EditJob';
+import JobDetails from './JobDetails';
 
 const App = () => {
 
@@ -30,6 +32,12 @@ const App = () => {
 				<Route path="/create_job" exact>
 					<CreateJob />
 				</Route>
+				<Route path="/edit_job" exact>
+					<EditJob />
+				</Route>
+				<Route path="/job_details" exact>
+					<JobDetails />
+				</Route>
 				<Redirect to="/" />
 			</Switch>
 			
@@ -40,8 +48,8 @@ const App = () => {
 				<Route path="/" exact>
 					<Home />
 				</Route>
-				<Route path="/create_job" exact>
-					<CreateJob />
+				<Route path="/job_details" exact>
+					<JobDetails />
 				</Route>
 				<Route path="/login" exact>
 					<LoginPage />
