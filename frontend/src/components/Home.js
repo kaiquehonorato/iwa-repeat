@@ -88,8 +88,12 @@ const Home = () => {
 									</div>
 									<div className="job_apply">
 										<button className="apply_button" onClick={() => viewHandler(job)}>View</button>
-										<button className="edit_button" onClick={() => editHandler(job)}>Edit</button>
-										<button className="remove_button" onClick={() => deleteHandler(job)}>Delete</button>
+										{loggedIn && session.account == "employer" && job.creator == session.username &&
+											<>
+												<button className="edit_button" onClick={() => editHandler(job)}>Edit</button>
+												<button className="remove_button" onClick={() => deleteHandler(job)}>Delete</button>
+											</>
+										}
 									</div>
 								</div>
 							)
