@@ -49,6 +49,9 @@ server.use('/api', userRoutes);
 // Use public folder as static server
 server.use(express.static('public'));
 
+// Set view engine to pug
+server.set('view engine', 'pug');
+
 // Serve index file for all cases except for defined above
 server.use((req, res, next) => {
 	res.render('index');
