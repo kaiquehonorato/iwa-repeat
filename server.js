@@ -17,7 +17,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
 // Connect to db
-mongoose.connect(config.mongodbUri, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(config.mongodbUri, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 	.catch(err => {
 		console.log(err);
 	})

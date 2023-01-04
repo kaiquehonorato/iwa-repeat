@@ -16,7 +16,7 @@ const Home = () => {
 	useEffect(() => {
 		axios.get('/api/getJob')
 			.then(resp => {
-				console.log("jobs", resp.data)
+				// console.log("jobs", resp.data)
 				const updatedJobs = {...jobs, allJobs: resp.data.jobs}
 				dispatch(updateCurrentJob(updatedJobs));
 			})
@@ -27,37 +27,36 @@ const Home = () => {
 		window.scrollTo(0, 0);
 	}, []);
 
-	const btnClickHandler = (job) => {
-		console.log("job", job);
-        dispatch(updateCurrentJob({ ...jobs, selectedJob: job }));
-	}
-
 	const viewHandler = (job) => {
-		btnClickHandler(job);
-		history.push('/job_details');
+		// console.log("job", job);
+        dispatch(updateCurrentJob({ ...jobs, selectedJob: job }));
+		history.push(`/job_details?id=${job._id}`);
 	}
 
 	const editHandler = (job) => {
-		btnClickHandler(job);
+		// console.log("job", job);
+        dispatch(updateCurrentJob({ ...jobs, selectedJob: job }));
 		history.push('/edit_job');
 	}
 
 	const deleteHandler = (job) => {
-		btnClickHandler(job);
-		const data = {
-			job_identifier: jobs.selectedJob.job_identifier,
-			creator: jobs.selectedJob.creator
-		}
-		axios.delete(`/api/deleteJob?job_identifier=${jobs.selectedJob.job_identifier}&creator=${jobs.selectedJob.creator}`)
+		axios.delete(`/api/deleteJob?job_identifier=${job.job_identifier}&creator=${job.creator}`)
 			.then(resp => {
-				console.log("resp is", resp);
+				// console.log("resp is", resp);
 				if (resp.data.type == 'success') {
+					// update jobs redux
+					const dummyJob = { job_title: '', company_name: '', company_location: '', job_description: '', job_responsibilities: '', required_skills: '', posted_date: '', creator: '', job_identifier: '' };
+					const updatedJobs = {
+						allJobs: resp.data.jobs,
+						selectedJob: dummyJob
+					};
+					dispatch(updateCurrentJob(updatedJobs));
 					return dispatch(receiveSuccessMessage({success: resp.data.message}));
 				}
 				return dispatch(receiveFailureMessage({failure: resp.data.message}));
 			})
 			.catch(err => {
-				console.log("Err", err);
+				// console.log("Err", err);
 				return dispatch(receiveFailureMessage({failure: "Something went wrong"}));
 			})
 	}
@@ -79,11 +78,11 @@ const Home = () => {
 						</div>
 					}
 					<div className="all_jobs">
-						{jobs && jobs.allJobs && jobs.allJobs.length && jobs.allJobs.map(job => {
+						{jobs && jobs.allJobs && jobs.allJobs.length > 0 ? jobs.allJobs.map(job => {
 							return (
 								<div className="single_job" key={job.job_identifier}>
 									<div className="job_info">
-										<Link to={`job_details`}><h2>{job.job_title}</h2></Link>
+										<h2 onClick={() => viewHandler(job)}>{job.job_title}</h2>
 										<div className="company">{job.company_name}</div>
 										<div className="location">{job.company_location}</div>
 									</div>
@@ -94,7 +93,10 @@ const Home = () => {
 									</div>
 								</div>
 							)
-						})}
+						})
+						:
+							<p>Created blogs will appear here, try creating job. You need to sign up with account type employer to be able to create Job listings.</p>
+						}
 					</div>
 				</div>
 			</div>

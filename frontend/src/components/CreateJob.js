@@ -99,14 +99,16 @@ const CreateJob = () => {
             }
             axios.post('/api/createJob', data)
                 .then(resp => {
-                    console.log("resp is", resp);
+                    // console.log("resp is", resp);
                     if (resp.data.type == 'success') {
-                        return dispatch(receiveSuccessMessage({success: resp.data.message}));
+                        dispatch(receiveSuccessMessage({success: resp.data.message}));
+                        return history.push('/');
                     }
                     return dispatch(receiveFailureMessage({failure: resp.data.message}));
                 })
                 .catch(err => {
-                    return dispatch(receiveFailureMessage({failure: "Something went wrong"}));
+                    // console.log("err", err);
+                    return dispatch(receiveFailureMessage({failure: err}));
                 })
 			// dispatch(login(user));
 		}

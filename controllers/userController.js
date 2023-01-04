@@ -66,13 +66,13 @@ const login = async (req, res, next) => {
 	}
 	// Password comparison failed
 	if (!isValidPassword) {
-		console.log('Wrong password');
+		// console.log('Wrong password');
 		return res.json({
 			message: 'Invalid credentials',
 			type: 'failure'
 		});
 	}
-	console.log("Correct credentials, Logged in");
+	// console.log("Correct credentials, Logged in");
 	// Logged In create session
 	if (!req.session.email) {
 		req.session.email = email;
@@ -159,7 +159,7 @@ const signup = async (req, res, next) => {
 		const error = new HttpError("Signing up failed, please try again");
 		return next(error);
 	}
-	console.log("New user created");
+	// console.log("New user created");
 	// Logged In create session
 	if (!req.session.email) {
 		req.session.email = email;
@@ -227,7 +227,7 @@ const createJob = async (req, res, next) => {
 			const error = new HttpError("Signing up failed, please try again");
 			return next(error);
 		}
-		console.log("New job created");
+		// console.log("New job created");
 		res.status(201).json({
 			job: createdJob.toObject({getters: true}),
 			redirect: true,
@@ -242,9 +242,9 @@ const createJob = async (req, res, next) => {
 	}
 };
 
-// Get all values of logged in user
+// Get all jobs
 const getJob = async (req, res, next) => {
-	console.log("getJob route hit");
+	// console.log("getJob route hit");
 	let allJobs;
 	try {
 		allJobs = await Job.find();
@@ -252,7 +252,7 @@ const getJob = async (req, res, next) => {
 		const error = new HttpError('Error in finding job', 500);
 		return next(error);
 	}
-	console.log("allJobs", allJobs);
+	// console.log("allJobs", allJobs);
 	if (allJobs) {
 		res.status(200).json({
 			jobs: allJobs,
@@ -262,9 +262,29 @@ const getJob = async (req, res, next) => {
 	}
 };
 
+const getJobById = async (req, res, next) => {
+	// console.log("getJob route hit");
+	let identifiedJob;
+	try {
+		identifiedJob = await Job.findOne({ "_id": req.query.id });
+	} catch(err) {
+		return res.json({
+			message: 'Could not find Job',
+			type: 'failure'
+		});
+	}
+	// console.log("identifiedJob", identifiedJob);
+	if (identifiedJob) {
+		res.status(200).json({
+			job: identifiedJob,
+			message: 'Job fetched',
+		});
+	}
+}
+
 // Update job
 const updateJob = async (req, res, next) => {
-	console.log("made inside update job route");
+	// console.log("made inside update job route");
 	if (req.session.email && req.session.account == 'employer') {
 		// validation result
 		const errors = validationResult(req);
@@ -281,7 +301,7 @@ const updateJob = async (req, res, next) => {
 			});
 		}
 		// get input values
-		console.log("req.body", req.body);
+		// console.log("req.body", req.body);
 		const {job_title, company_name, company_location, job_description, job_responsibilities, required_skills, job_identifier} = req.body;
 		if (!job_identifier) {
 			return res.json({
@@ -298,7 +318,7 @@ const updateJob = async (req, res, next) => {
 		const dateString = day + " " + monthString + ", " + year;
 		let updatedJob;
 		try {
-			updatedJob = await Job.find(job_identifier);
+			updatedJob = await Job.findOne({ job_identifier: job_identifier });
 		} catch(err) {
 			res.json({
 				message: 'Cannot find blog to edit',
@@ -306,7 +326,7 @@ const updateJob = async (req, res, next) => {
 			});
 		}
 		if (updatedJob) {
-			console.log("updatedJob", updatedJob);
+			// console.log("updatedJob", updatedJob);
 			updatedJob.job_title = job_title;
 			updatedJob.company_name = company_name;
 			updatedJob.company_location = company_location;
@@ -321,7 +341,7 @@ const updateJob = async (req, res, next) => {
 				const error = new HttpError("Cannot update blog");
 				return next(error);
 			}
-			console.log("Job updated");
+			// console.log("Job updated");
 			res.status(201).json({
 				job: updatedJob.toObject({getters: true}),
 				redirect: true,
@@ -339,11 +359,12 @@ const updateJob = async (req, res, next) => {
 
 const deleteJob = async (req, res, next) => {
 	if (req.session.email && req.session.account == 'employer') {
-		console.log("req.session", req.session);
-		console.log("req.query", req.query);
+		// console.log("req.session", req.session);
+		// console.log("req.query", req.query);
 		// get input values
 		const {job_identifier, creator} = req.query;
 		if (req.session.username != creator) {
+			// console.log("made here");
 			return res.json({
 				message: 'Permission denied',
 				type: 'failure'
@@ -351,7 +372,7 @@ const deleteJob = async (req, res, next) => {
 		}
 		let deletedJob;
 		try {
-			deletedJob = await Job.find(job_identifier);
+			deletedJob = await Job.findOne({job_identifier: job_identifier});
 		} catch(err) {
 			return res.json({
 				message: 'Could not find job to delete',
@@ -385,11 +406,12 @@ const deleteJob = async (req, res, next) => {
 		if (allJobs) {
 			return res.json({
 				message: 'Job removed successfully',
-				type: success,
-				jobs: allJobs.toObject({getters: true}),
+				type: 'success',
+				jobs: allJobs.map(s => s.toObject({getters:true})),
 			});
 		}
 	} else {
+		// console.log("last");
 		res.status(200).json({
 			message: 'Permission denied',
 			type: 'failure'
@@ -397,4 +419,4 @@ const deleteJob = async (req, res, next) => {
 	}
 };
 
-export default { getUser, login, signup, logout, createJob, getJob, updateJob, deleteJob };
+export default { getUser, login, signup, logout, createJob, getJob, getJobById, updateJob, deleteJob };

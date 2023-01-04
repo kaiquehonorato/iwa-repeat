@@ -105,14 +105,15 @@ const EditJob = () => {
             }
             axios.put('/api/updateJob', data)
                 .then(resp => {
-                    console.log("resp is", resp);
+                    // console.log("resp is", resp);
                     if (resp.data.type == 'success') {
-                        return dispatch(receiveSuccessMessage({success: resp.data.message}));
+                        dispatch(receiveSuccessMessage({success: resp.data.message}));
+                        return history.push('/');
                     }
                     return dispatch(receiveFailureMessage({failure: resp.data.message}));
                 })
                 .catch(err => {
-                    console.log("Err", err);
+                    // console.log("Err", err);
                     return dispatch(receiveFailureMessage({failure: "Something went wrong"}));
                 })
 			// dispatch(login(user));

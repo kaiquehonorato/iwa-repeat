@@ -37,6 +37,7 @@ router.post('/createJob', [
 
 // Get request
 router.get('/getJob', userController.getJob);
+router.get('/getJobById', userController.getJobById);
 
 // Update job
 router.put('/updateJob', [
