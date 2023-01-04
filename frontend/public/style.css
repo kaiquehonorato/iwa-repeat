@@ -870,9 +870,10 @@ a.signUpBtnLink {
 .location {
 	color: #a9a9a9;
 }
-.jobDescriptionText {
+.description {
 	color: #333;
 	line-height: 1.6;
+	text-align: justify;
 }
 
 

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import React, { useEffect, useMemo } from 'react';
+import {useLocation} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
 
@@ -12,11 +12,17 @@ const SingleJob = () => {
 	const session = useSelector(state => state.session);
 	const loggedIn = Boolean(session.email);
 
+	// Get ID from the URL
+    const useQuery = () => {
+        const { search } = useLocation();
+        return useMemo(() => new URLSearchParams(search), [search]);
+    };
+    let query = useQuery();
+
 	useEffect(() => {
-		axios.get('/api/getJob')
+		axios.get(`/api/getJobById?id=${query.get("id")}`)
 			.then(resp => {
-				console.log("jobs", resp.data)
-				const updatedJobs = {...jobs, allJobs: resp.data.jobs}
+				const updatedJobs = {...jobs, selectedJob: resp.data.job}
 				dispatch(updateCurrentJob(updatedJobs));
 			})
 	}, []);
@@ -31,7 +37,7 @@ const SingleJob = () => {
 			<div className="header">
 				<div className="container">
 					<div className="header-text">Job Details</div>
-                    <p>Job details at a glance</p>
+                    <p>Everything about {jobs.selectedJob.job_title} position</p>
 				</div>
 			</div>
 			<div className="p-40">
